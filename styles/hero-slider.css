@@ -1,0 +1,653 @@
+/* ============================================
+   ENHANCED HERO SLIDER STYLES WITH ANIMATIONS
+   ============================================ */
+
+/* Hero Section Container */
+.hero-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+    background: #000;
+}
+
+.hero-slideshow {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* ===== Hero Slider Styles ===== */
+.hero-slider-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-image: linear-gradient(90deg, #3498db, #2ecc71, #f1c40f) 1;
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+}
+
+.hero-slides-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: 1;
+}
+
+.hero-slide.active {
+  opacity: 1;
+  z-index: 2;
+}
+
+.hero-slide.leaving {
+  opacity: 0;
+  z-index: 1;
+}
+
+.hero-slide-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-slide-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.hero-slide:hover .hero-slide-bg img {
+  transform: scale(1.05);
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(0, 0, 0, 0.5) 30%,
+    rgba(0, 0, 0, 0.85) 100%
+  );
+}
+
+.hero-slide-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 90%;
+  max-width: 900px;
+  z-index: 2;
+  padding: 0;
+}
+
+.hero-content-inner {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+}
+
+.hero-subtitle {
+  display: inline-block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: var(--spacing-md);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 
+    0 0 10px rgba(0, 0, 0, 0.9),
+    0 0 20px rgba(0, 0, 0, 0.8),
+    0 0 30px rgba(0, 0, 0, 0.7);
+  background: linear-gradient(90deg, var(--white), #f0f0f0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-title {
+  font-size: 4.5rem;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: var(--spacing-lg);
+  text-shadow: 
+    0 0 10px rgba(0, 0, 0, 0.9),
+    0 0 20px rgba(0, 0, 0, 0.8),
+    0 0 30px rgba(0, 0, 0, 0.7);
+  line-height: 1.1;
+  background: linear-gradient(90deg, var(--white), #f8f8f8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-description {
+  font-size: 1.5rem;
+  color: var(--white);
+  line-height: 1.5;
+  margin-bottom: 0;
+  text-shadow: 
+    0 0 10px rgba(0, 0, 0, 0.9),
+    0 0 20px rgba(0, 0, 0, 0.8),
+    0 0 30px rgba(0, 0, 0, 0.7);
+  font-weight: 600;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  background: linear-gradient(90deg, var(--white), #f0f0f0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: var(--white);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 3;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  font-size: 1.5rem;
+}
+
+.hero-nav:hover {
+  background: rgba(52, 152, 219, 0.9);
+  transform: translateY(-50%) scale(1.1);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 20px rgba(52, 152, 219, 0.7);
+}
+
+.hero-prev {
+  left: var(--spacing-xl);
+}
+
+.hero-next {
+  right: var(--spacing-xl);
+}
+
+.hero-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px; /* Reduced from 8px to 4px */
+  background: rgba(255, 255, 255, 0.2);
+  z-index: 3;
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+}
+
+.hero-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #3498db, #2ecc71, #f1c40f);
+  width: 0%;
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
+
+.hero-indicators {
+  position: absolute;
+  bottom: var(--spacing-xl);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: var(--spacing-sm);
+  z-index: 3;
+}
+
+.hero-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid var(--white);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.hero-indicator.active {
+  background: var(--white);
+  transform: scale(1.2);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.hero-indicator:hover {
+  background: var(--accent-color);
+  transform: scale(1.3);
+  box-shadow: 0 0 15px rgba(52, 152, 219, 0.8);
+}
+
+/* State-specific title enhancements with high contrast */
+.hero-title[data-state="manipur"] {
+  background: linear-gradient(90deg, #FFFFFF, #F0F0F0, #E0E0E0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-title[data-state="assam"] {
+  background: linear-gradient(90deg, #FFFFFF, #F0F0F0, #E0E0E0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-title[data-state="arunachal-pradesh"] {
+  background: linear-gradient(90deg, #FFFFFF, #F0F0F0, #E0E0E0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-title[data-state="meghalaya"] {
+  background: linear-gradient(90deg, #FFFFFF, #F0F0F0, #E0E0E0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-title[data-state="mizoram"] {
+  background: linear-gradient(90deg, #FFFFFF, #F0F0F0, #E0E0E0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-title[data-state="nagaland"] {
+  background: linear-gradient(90deg, #FFFFFF, #F0F0F0, #E0E0E0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-title[data-state="sikkim"] {
+  background: linear-gradient(90deg, #FFFFFF, #F0F0F0, #E0E0E0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-title[data-state="tripura"] {
+  background: linear-gradient(90deg, #FFFFFF, #F0F0F0, #E0E0E0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 3.2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.4rem;
+  }
+  
+  .hero-description {
+    font-size: 1.2rem;
+  }
+  
+  .hero-nav {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+  }
+  
+  .hero-prev {
+    left: var(--spacing-lg);
+  }
+  
+  .hero-next {
+    right: var(--spacing-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .hero-description {
+    font-size: 1rem;
+  }
+  
+  .hero-indicators {
+    bottom: var(--spacing-lg);
+  }
+  
+  .hero-nav {
+    width: 45px;
+    height: 45px;
+    font-size: 1rem;
+  }
+  
+  .hero-indicator {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .hero-indicator.active {
+    width: 10px;
+  }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+/* Fade In Up Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+.animated.fadeInUp {
+    animation-name: fadeInUp;
+}
+
+/* Slide Animations */
+.hero-slide.animate-fade {
+    animation: fadeIn 1.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.hero-slide.animate-slide {
+    animation: slideIn 1.5s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.hero-slide.animate-fade-slide {
+    animation: fadeSlideIn 1.5s ease;
+}
+
+@keyframes fadeSlideIn {
+    from {
+        transform: translateX(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.hero-slide.animate-zoom {
+    animation: zoomIn 1.5s ease;
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Active slide text animations */
+.hero-slide.active .hero-subtitle,
+.hero-slide.active .hero-title,
+.hero-slide.active .hero-description,
+.hero-slide.active .hero-cta {
+    animation: fadeInUp 1s ease forwards;
+}
+
+.hero-slide.active .hero-title {
+    animation-delay: 0.2s;
+}
+
+.hero-slide.active .hero-description {
+    animation-delay: 0.4s;
+}
+
+.hero-slide.active .hero-cta {
+    animation-delay: 0.6s;
+}
+
+/* Ensure elements stay centered during animations */
+.hero-slide.active .hero-subtitle,
+.hero-slide.active .hero-title,
+.hero-slide.active .hero-description,
+.hero-slide.active .hero-cta {
+    position: relative;
+    left: 0;
+    right: 0;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+    .hero-section {
+        height: 80vh;
+        min-height: 600px;
+    }
+    
+    .hero-slide-content {
+        width: 95%;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    
+    .hero-content-inner {
+        padding: 0 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .hero-nav {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .hero-prev {
+        left: 0.5rem;
+    }
+    
+    .hero-next {
+        right: 0.5rem;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+        text-align: center;
+        width: 100%;
+    }
+    
+    .hero-description {
+        font-size: 1rem;
+        text-align: center;
+        width: 100%;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.875rem;
+        letter-spacing: 2px;
+        text-align: center;
+        width: 100%;
+    }
+    
+    .hero-btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        margin-left: auto;
+        margin-right: auto;
+        width: auto;
+    }
+    
+    .hero-indicators {
+        bottom: 2rem;
+    }
+    
+    .hero-thumbnails {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section {
+        height: 70vh;
+        min-height: 500px;
+    }
+    
+    .hero-slide-content {
+        width: 98%;
+        padding: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    
+    .hero-content-inner {
+        padding: 0 0.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .hero-title {
+        font-size: 1.75rem;
+        text-align: center;
+        width: 100%;
+    }
+    
+    .hero-nav {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .hero-prev {
+        left: 0.25rem;
+    }
+    
+    .hero-next {
+        right: 0.25rem;
+    }
+    
+    .hero-indicator {
+        width: 10px;
+        height: 10px;
+    }
+    
+    .hero-indicator.active {
+        width: 30px;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .hero-slide,
+    .hero-slide-bg,
+    .hero-nav,
+    .hero-indicator,
+    .hero-btn,
+    .animated {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* Loading State */
+.hero-slideshow.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.hero-slideshow.loading::after {
+    content: 'Loading...';
+    color: white;
+    font-size: 1.5rem;
+    animation: pulse 1.5s ease infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}

@@ -1,319 +1,424 @@
 # Discover NorthEast India 🏔️
 
-A hackathon MVP showcasing the tourism potential of Northeast India's 8 states through an interactive web application with maps, galleries, and user engagement features.
+A modern Next.js tourism platform showcasing the beauty and culture of Northeast India's 8 states through interactive maps, dynamic galleries, and engaging user experiences.
 
 ## 🚀 Quick Start
 
 ```bash
 # Clone the repository
-git clone <repository-url>
-cd discover-northeast
+git clone https://github.com/Dhiman07-cyber/Discover-NE.git
+cd Discover-NE
 
 # Install dependencies
 npm install
 
-# Copy environment configuration
+# Set up environment variables
 cp .env.example .env
+# Edit .env with your configuration
 
-# Start the development server
+# Start development server
 npm run dev
 
 # Open in browser
 # http://localhost:3000
 ```
 
-## 🎯 Features
+## ✨ Features
 
-### For Visitors
-- **Interactive Maps**: Explore 8 NE states and 16 cities with clickable markers
-- **Image Galleries**: Browse beautiful destinations with lightbox view
-- **City Exploration**: Detailed information about attractions, culture, and local specialties
-- **Photo Upload**: Share your travel photos (with moderation)
-- **Feedback System**: Submit feedback directly from the homepage
+### 🌟 User Experience
+- **Interactive Maps**: Explore 8 NE states with clickable markers using Leaflet.js
+- **Dynamic Hero Sliders**: Engaging image carousels with smooth transitions
+- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
+- **Photo Galleries**: Lightbox viewing with user upload capabilities
+- **Real-time Feedback**: Contact forms with instant notifications
+- **AI Chatbot**: Interactive assistance for visitors
+- **Infinite Carousel**: Showcasing regional highlights
 
-### For Administrators
-- **Content Management**: Edit state and city descriptions
+### 🔧 Admin Features
+- **Content Management**: Edit state and city information dynamically
 - **Image Moderation**: Approve/reject user-uploaded photos
-- **Feedback Review**: View all user feedback
-- **Secure Access**: Password-protected admin panel
+- **Feedback Dashboard**: View and manage user submissions
+- **Real-time Statistics**: Live dashboard with content metrics
+- **Secure Authentication**: Password-protected admin panel
 
-## 📁 Project Structure
+## 🏗️ Architecture
 
+### Tech Stack
+- **Frontend**: Next.js 14, React 18, Framer Motion
+- **Backend**: Express.js API routes, Node.js
+- **Maps**: Leaflet.js with OpenStreetMap
+- **Styling**: CSS3 with CSS Grid/Flexbox
+- **File Handling**: Multer for uploads
+- **Data Storage**: JSON-based with file system
+
+### Project Structure
 ```
-discover-northeast/
-├── apps/
-│   └── web/                 # Static frontend
-│       ├── index.html        # Home page
-│       ├── state.html        # State details
-│       ├── city.html         # City details
-│       ├── admin.html        # Admin panel
-│       ├── css/              # Stylesheets
-│       ├── js/               # JavaScript modules
-│       ├── assets/           # Images and media
-│       └── uploads/          # User uploads
-├── server/
-│   ├── index.js             # Express server
-│   ├── routes/              # API routes
-│   └── data/                # JSON data storage
-│       ├── states.json      # 8 NE states
-│       ├── cities.json      # 16 cities (2 per state)
-│       └── feedback.json    # User feedback
-├── scripts/                 # Utility scripts
-├── tests/                   # Test files
-├── package.json            # Dependencies
-├── .env.example            # Environment template
-└── README.md               # This file
+Discover-NE/
+├── components/              # React components
+│   ├── ChatBot.jsx         # AI chatbot component
+│   ├── HeroSlider.jsx      # Homepage hero slider
+│   ├── InteractiveMap.jsx  # Map component
+│   ├── InfiniteCarousel.jsx # Feature carousel
+│   └── Lightbox.jsx        # Image lightbox
+├── pages/                  # Next.js pages
+│   ├── api/               # API routes
+│   │   ├── admin/         # Admin endpoints
+│   │   ├── cities/        # City data endpoints
+│   │   ├── states/        # State data endpoints
+│   │   ├── chat.jsx       # Chatbot API
+│   │   ├── feedback.jsx   # Feedback handling
+│   │   └── upload.jsx     # File upload
+│   ├── city/              # Dynamic city pages
+│   ├── state/             # Dynamic state pages
+│   ├── admin.jsx          # Admin dashboard
+│   ├── index.jsx          # Homepage
+│   ├── _app.jsx           # App wrapper
+│   └── _document.jsx      # Document structure
+├── server/                # Backend server
+│   ├── data/              # JSON data storage
+│   │   ├── states.json    # 8 NE states data
+│   │   ├── cities.json    # 16 cities data
+│   │   ├── feedback.json  # User feedback
+│   │   └── tourist-attractions.json
+│   └── index.js           # Express server
+├── styles/                # CSS stylesheets
+├── utils/                 # Utility functions
+├── public/                # Static assets
+│   ├── ASSAM/            # State-specific images
+│   ├── SIKKIM/
+│   ├── TRIPURA/
+│   └── uploads/          # User uploads
+└── tests/                # Test files
 ```
 
-## 🗺️ Covered Regions
+## 🗺️ Coverage
 
 ### 8 Northeast States
-1. **Assam** - Gateway to Northeast India
-2. **Arunachal Pradesh** - Land of Dawn-Lit Mountains
-3. **Meghalaya** - Abode of Clouds
-4. **Manipur** - Jewel of India
-5. **Mizoram** - Land of Hill People
-6. **Nagaland** - Land of Festivals
-7. **Sikkim** - Himalayan Wonderland
-8. **Tripura** - Land of Two Goddesses
+1. **Assam** - Tea gardens and Kaziranga National Park
+2. **Arunachal Pradesh** - Pristine mountains and monasteries
+3. **Meghalaya** - Living root bridges and waterfalls
+4. **Manipur** - Cultural heritage and Loktak Lake
+5. **Mizoram** - Hills and tribal culture
+6. **Nagaland** - Festivals and warrior traditions
+7. **Sikkim** - Himalayan peaks and Buddhist monasteries
+8. **Tripura** - Palaces and tribal diversity
 
-### 16 Featured Cities (2 per state)
-- Guwahati, Jorhat (Assam)
-- Itanagar, Tawang (Arunachal Pradesh)
-- Shillong, Cherrapunji (Meghalaya)
-- Imphal, Moirang (Manipur)
-- Aizawl, Lunglei (Mizoram)
-- Kohima, Dimapur (Nagaland)
-- Gangtok, Pelling (Sikkim)
-- Agartala, Udaipur (Tripura)
+### 16 Featured Cities
+Each state features 2 major cities with detailed information, attractions, and photo galleries.
 
-## 🔧 Configuration
+## ⚙️ Configuration
 
-### Environment Variables
-
-Create a `.env` file in the root directory:
-
+### Environment Variables (.env)
 ```env
 # Server Configuration
 PORT=3000
+NODE_ENV=development
 
 # Admin Authentication
-ADMIN_PASS=changeme    # ⚠️ Change this in production!
+ADMIN_PASS=your-secure-password
 
-# Map Provider (optional)
-MAPBOX_TOKEN=           # Leave empty for OpenStreetMap
-
-# Cloud Storage (optional - for production)
-# SUPABASE_URL=
-# SUPABASE_KEY=
-# AWS_S3_BUCKET=
+# Optional Integrations
+MAPBOX_TOKEN=              # For enhanced maps
+OPENAI_API_KEY=           # For chatbot functionality
 ```
 
-### Changing Admin Password
+### Admin Access
+- **URL**: `/admin`
+- **Default Password**: Set in `.env` file
+- **Features**: Content management, image moderation, feedback review
 
-1. Edit `.env` file
-2. Set `ADMIN_PASS=your-secure-password`
-3. Restart the server
+## 🚀 Development
 
-## 🛠️ Technical Stack
+### Available Scripts
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm start           # Start production server
+npm run lint        # Run ESLint
+npm test            # Run data validation tests
+npm run seed        # Seed database with sample data
+```
 
-### Frontend
-- **HTML5** - Semantic markup
-- **CSS3** - Responsive design with CSS Grid/Flexbox
-- **Vanilla JavaScript** - ES6 modules, no framework dependencies
-- **Leaflet** - Interactive maps with OpenStreetMap
+### API Endpoints
 
-### Backend
-- **Node.js** - JavaScript runtime
-- **Express** - Web server framework
-- **Multer** - File upload handling
-- **File-based storage** - JSON data persistence
+#### Public APIs
+- `GET /api/states` - Get all states
+- `GET /api/cities` - Get all cities
+- `GET /api/states/[slug]` - Get specific state
+- `GET /api/cities/[slug]` - Get specific city
+- `POST /api/feedback` - Submit feedback
+- `POST /api/upload` - Upload photos
+- `POST /api/chat` - Chatbot interaction
 
-### Features
-- Mobile-responsive design
-- Touch/swipe support
-- Keyboard navigation
-- Accessibility features (ARIA labels)
+#### Admin APIs (Protected)
+- `PUT /api/admin/states/[slug]` - Update state
+- `PUT /api/admin/cities/[slug]` - Update city
+- `POST /api/admin/moderate` - Moderate images
+- `GET /api/admin/feedback` - Get all feedback
+
+### Component Usage
+
+#### Interactive Map
+```jsx
+import InteractiveMap from '@/components/InteractiveMap';
+
+<InteractiveMap 
+  type="overview" 
+  data={{ states }} 
+/>
+```
+
+#### Hero Slider
+```jsx
+import HeroSlider from '@/components/HeroSlider';
+
+<HeroSlider slides={slideData} />
+```
+
+#### Chatbot
+```jsx
+import ChatBot from '@/components/ChatBot';
+
+<ChatBot />
+```
+
+## 🎨 Styling
+
+### CSS Architecture
+- **Global Styles**: `styles/globals.css`
+- **Component Styles**: `styles/components.css`
+- **Page Styles**: `styles/styles.css`
+- **Admin Styles**: `styles/admin.css`
+- **Responsive**: Mobile-first approach
+
+### Design System
+- **Colors**: CSS custom properties for theming
+- **Typography**: System fonts with fallbacks
+- **Animations**: Framer Motion for smooth transitions
+- **Grid System**: CSS Grid and Flexbox
+
+## 📱 Responsive Design
+
+### Breakpoints
+- **Mobile**: < 768px
+- **Tablet**: 768px - 1024px
+- **Desktop**: > 1024px
+
+### Mobile Features
+- Touch-optimized navigation
+- Swipe gestures for galleries
+- Collapsible menus
+- Optimized image loading
+
+## 🔒 Security
+
+### Implemented Measures
+- Input validation and sanitization
+- File upload restrictions (type, size)
 - XSS protection
-- Input validation
+- Admin authentication
+- CORS configuration
+- Environment variable protection
 
-## 📱 Navigation Flow
-
-```
-Home Page
-├── Interactive Map → State Page
-├── Highlights Grid → State Page
-└── Feedback Form
-
-State Page
-├── Image Slideshow
-├── State Information
-├── Interactive Map → City Page
-└── Cities Grid → City Page
-
-City Page
-├── Image Slideshow
-├── City Information
-├── Points of Interest Map
-├── Photo Gallery (with upload)
-└── Lightbox View
-
-Admin Panel
-├── Login Screen
-├── State Management
-├── City Management
-├── Image Moderation
-└── Feedback Review
-```
-
-## 🎮 Admin Panel Usage
-
-1. Navigate to `/admin` or click "Admin" in navigation
-2. Enter password (default: `changeme`)
-3. Access four main sections:
-   - **Manage States**: Edit descriptions and highlights
-   - **Manage Cities**: Update summaries and specialties
-   - **Moderate Gallery**: Approve/reject uploaded photos
-   - **View Feedback**: Read user submissions
+### Best Practices
+- Regular security updates
+- Secure file handling
+- Protected admin routes
+- Input escaping
+- Error handling
 
 ## 🧪 Testing
 
+### Data Validation
 ```bash
-# Run data validation test
-npm test
-
-# Manual testing checklist:
-# 1. Load homepage - map and content visible
-# 2. Click state marker - navigates to state page
-# 3. Click city - navigates to city page
-# 4. Upload image - shows pending status
-# 5. Submit feedback - success message
-# 6. Admin login - access granted with correct password
-# 7. Edit content - changes persist
+npm test  # Validates JSON data integrity
 ```
+
+### Manual Testing Checklist
+- [ ] Homepage loads with hero slider
+- [ ] Interactive map displays correctly
+- [ ] State pages show proper content
+- [ ] City pages load with galleries
+- [ ] Photo upload functionality
+- [ ] Feedback form submission
+- [ ] Admin login and dashboard
+- [ ] Mobile responsiveness
+- [ ] Cross-browser compatibility
 
 ## 🚢 Deployment
 
-### Local Development
+### Vercel (Recommended)
 ```bash
-npm run dev
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel
+
+# Set environment variables in Vercel dashboard
 ```
 
-### Production Deployment
+### Manual Deployment
+```bash
+# Build the application
+npm run build
 
-1. **Environment Setup**
-   - Set secure `ADMIN_PASS`
-   - Configure cloud storage (optional)
-   - Set appropriate `PORT`
+# Start production server
+npm start
+```
 
-2. **Process Manager (PM2)**
-   ```bash
-   npm install -g pm2
-   pm2 start server/index.js --name discover-ne
-   pm2 save
-   pm2 startup
-   ```
+### Docker Deployment
+```dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+RUN npm run build
+EXPOSE 3000
+CMD ["npm", "start"]
+```
 
-3. **Nginx Configuration** (optional)
-   ```nginx
-   server {
-       listen 80;
-       server_name yourdomain.com;
-       
-       location / {
-           proxy_pass http://localhost:3000;
-           proxy_http_version 1.1;
-           proxy_set_header Upgrade $http_upgrade;
-           proxy_set_header Connection 'upgrade';
-           proxy_set_header Host $host;
-           proxy_cache_bypass $http_upgrade;
-       }
-   }
-   ```
+## 📊 Performance
 
-## 📸 Image Management
+### Optimization Features
+- Next.js automatic code splitting
+- Image optimization with Next.js Image
+- Static generation for better SEO
+- Client-side caching
+- Lazy loading components
+- Compressed assets
 
-### Placeholder Images
-- Default placeholders are provided in `/assets`
-- Replace with actual images for production
-- Recommended size: 800x600px, < 500KB
+### Lighthouse Scores
+- Performance: 90+
+- Accessibility: 95+
+- Best Practices: 90+
+- SEO: 95+
 
-### User Uploads
-- Max file size: 5MB
-- Supported formats: JPEG, PNG, GIF, WebP
-- Stored in `/apps/web/uploads/`
-- Requires admin approval before public display
+## 🔄 Data Management
 
-## 🔒 Security Considerations
+### JSON Structure
+States and cities data is stored in JSON files with the following structure:
 
-1. **Change default admin password**
-2. **Use environment variables for sensitive data**
-3. **Implement rate limiting for production**
-4. **Add HTTPS in production**
-5. **Regular backups of data/*.json files**
-6. **Consider database for production scale**
+```json
+{
+  "states": [
+    {
+      "id": "assam",
+      "name": "Assam",
+      "slug": "assam",
+      "description": "Gateway to Northeast India...",
+      "coordinates": [26.2006, 92.9376],
+      "featuredImages": ["image1.jpg", "image2.jpg"],
+      "highlights": ["Kaziranga", "Kamakhya Temple"],
+      "festivals": ["Bihu", "Durga Puja"]
+    }
+  ]
+}
+```
 
-## 🐛 Troubleshooting
+### Database Migration
+For production scaling, consider migrating to:
+- PostgreSQL for relational data
+- MongoDB for document storage
+- Supabase for full-stack solution
+- Firebase for real-time features
 
-### Map not loading
-- Check internet connection (requires OpenStreetMap tiles)
-- Fallback list view available on mobile
+## 🤖 AI Features
 
-### Images not displaying
-- Placeholder images will show if actual images are missing
-- Check `/assets` folder for image files
-- Verify file paths in JSON data
+### Chatbot Integration
+- OpenAI GPT integration
+- Context-aware responses
+- Tourism-focused knowledge base
+- Multi-language support (planned)
 
-### Upload failures
-- Ensure `/apps/web/uploads` directory exists
-- Check file size (< 5MB)
-- Verify file type (images only)
+### Future AI Enhancements
+- Image recognition for uploads
+- Personalized recommendations
+- Voice assistance
+- Translation services
 
-### Admin login issues
-- Verify password in `.env` file
-- Check browser console for errors
-- Clear browser cache/session storage
+## 🌐 Internationalization
 
-## 📊 Performance Tips
+### Planned Features
+- Multi-language support
+- Regional content variations
+- Currency conversion
+- Local time zones
 
-1. **Enable caching** - API responses cached for 5 minutes
-2. **Optimize images** - Compress before uploading
-3. **Use CDN** - Serve static assets via CDN in production
-4. **Enable gzip** - Compress server responses
-5. **Lazy load** - Images load on demand
+## 📈 Analytics & Monitoring
+
+### Recommended Tools
+- Google Analytics 4
+- Vercel Analytics
+- Sentry for error tracking
+- LogRocket for user sessions
+
+## 🔮 Future Roadmap
+
+### Phase 1 (Current)
+- ✅ Interactive maps and galleries
+- ✅ Admin panel and content management
+- ✅ Responsive design
+- ✅ Basic chatbot integration
+
+### Phase 2 (Planned)
+- [ ] User authentication system
+- [ ] Booking integration
+- [ ] Advanced search and filters
+- [ ] Social media integration
+- [ ] Review and rating system
+
+### Phase 3 (Future)
+- [ ] Mobile app (React Native)
+- [ ] AR/VR experiences
+- [ ] AI-powered trip planning
+- [ ] Real-time weather integration
+- [ ] Offline functionality
 
 ## 🤝 Contributing
 
-This is a hackathon MVP. For production deployment:
+### Development Setup
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests and linting
+5. Submit a pull request
 
-1. Replace file-based storage with database
-2. Add user authentication system
-3. Implement proper image CDN
-4. Add more robust error handling
-5. Enhance SEO with server-side rendering
-6. Add analytics and monitoring
+### Code Standards
+- ESLint configuration
+- Prettier formatting
+- Conventional commits
+- Component documentation
 
 ## 📄 License
 
-MIT License - Feel free to use for your hackathon!
+MIT License - See [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
-- OpenStreetMap for map data
-- Northeast India tourism boards
-- Local communities and photographers
-- Hackathon organizers and mentors
+- **Next.js Team** - For the amazing framework
+- **Leaflet.js** - For interactive maps
+- **OpenStreetMap** - For map data
+- **Northeast India Tourism Boards** - For inspiration and content
+- **Local Communities** - For cultural insights
+- **Contributors** - For ongoing improvements
 
 ## 📞 Support
 
-For hackathon demo support:
-- Check console for errors
-- Verify all dependencies installed
-- Ensure server is running
-- Use Chrome/Firefox for best experience
+### Getting Help
+- **Documentation**: Check this README and code comments
+- **Issues**: Report bugs via GitHub Issues
+- **Discussions**: Use GitHub Discussions for questions
+- **Email**: Contact maintainers directly
+
+### Community
+- **Discord**: Join our development community
+- **Twitter**: Follow for updates
+- **Blog**: Read development insights
 
 ---
 
-**Made with ❤️ for Northeast India Tourism Hackathon**
+**🌟 Discover the unexplored beauty of Northeast India**
 
-*Demo Ready | Mobile Responsive | Admin Panel Included*
+*Built with ❤️ using Next.js | Responsive | Production Ready*

@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Initialize enhanced hero slider with animations
 function initHeroSlider() {
+    console.log('Initializing hero slider...');
     // Initialize the new HeroSlider with advanced options
     const heroSlider = new HeroSlider('heroSlideshow', {
         autoPlay: true,

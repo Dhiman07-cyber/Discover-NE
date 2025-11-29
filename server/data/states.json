@@ -233,8 +233,11 @@
     },
     "featuredImages": [
       "https://www.adotrip.com/public/images/city/master_images/5e3d0c5e61d04-Gangtok_Sightseeing.jpg",
-      "/assets/sikkim-2.jpg",
-      "/assets/sikkim-3.jpg"
+      "/SIKKIM/Sikkim-1.jpg",
+      "/SIKKIM/Sikkim-2.jpg",
+      "/SIKKIM/Sikkim-3.jpg",
+      "/SIKKIM/Sikkim-4.jpg",
+      "/SIKKIM/Sikkim-5.jpg"
     ],
     "highlights": [
       "Kanchenjunga",
@@ -269,9 +272,10 @@
       "lng": 91.9882
     },
     "featuredImages": [
-      "/assets/tripura-1.jpg",
-      "/assets/tripura-2.jpg",
-      "/assets/tripura-3.jpg"
+      "/TRIPURA/Tripura-Card.jpg",
+      "/TRIPURA/Tripura-1.jpg",
+      "/TRIPURA/Tripura-2.jpg",
+      "/TRIPURA/Tripura-3.jpg"
     ],
     "highlights": [
       "Ujjayanta Palace",

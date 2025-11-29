@@ -1,6 +1,6 @@
 // State page functionality
 import { getState, getUrlParam, showLoading, showError, escapeHtml } from './data.js';
-import { Slider } from './slider.js';
+import { initHeroSlider } from './hero-slider.js';
 import { initMap } from './map.js';
 
 let currentState = null;
@@ -119,21 +119,34 @@ function populateStateInfo(state) {
     }
 }
 
-// Initialize state image slider
+// Initialize state image slider with enhanced hero slider
 function initStateSlider(state) {
     if (!state.featuredImages || state.featuredImages.length === 0) {
         // Use placeholder if no images
         state.featuredImages = ['/assets/placeholder.jpg'];
     }
     
-    const slider = new Slider('stateSlideshow');
-    
-    const images = state.featuredImages.map((img, index) => ({
-        src: img,
-        alt: `${state.name} - Image ${index + 1}`
+    const slides = state.featuredImages.map((img, index) => ({
+        image: img,
+        alt: `${state.name} - Image ${index + 1}`,
+        title: state.name,
+        subtitle: index === 0 ? `Welcome to ${state.name}` : `Discover ${state.name}`,
+        description: state.tagline || `Explore the beauty and culture of ${state.name}`,
+        cta: {
+            text: 'Explore Places',
+            link: '#citiesGrid'
+        }
     }));
-    
-    slider.loadSlides(images);
+
+    initHeroSlider('heroSlideshow', {
+        autoPlay: true,
+        autoPlayInterval: 6000,
+        animationType: 'fade-slide',
+        enableParallax: true,
+        enableTextAnimation: true,
+        enableProgressBar: true,
+        pauseOnHover: true
+    }).loadSlides(slides);
 }
 
 // Initialize state map with cities

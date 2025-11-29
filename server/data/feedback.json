@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "id": "1759386072317",
+    "name": "Dhiman Saikia",
+    "email": "pamidew455@etenx.com",
+    "message": "🚌 Final Project Plan: Smart Bus Service System\n1️⃣ Features & Functionalities\n👑 Admin\n\nSingle super-admin account.\n\nDashboard with system overview:\n\nTotal enrolled students, drivers, moderators.\n\nBus routes, capacity, driver assignments.\n\nUser Management:\n\nCreate/update/delete moderators, drivers, students.\n\nReset credentials.\n\nBus Management:\n\nAdd/edit buses with route IDs, road names, capacity.\n\nNotifications:\n\nSend announcements (holidays, bus repair, reassignments) to selected bus members only.\n\nAnalytics (later with Supabase sync):\n\nUsage reports, attendance trends, overloaded routes.\n\n🛠 Moderator\n\nRegister students, drivers, and assign them to buses.\n\nManage bus routes and capacity planning.\n\nApprove/reject driver swaps.\n\nAccess bus status in real time (location, attendance logs).\n\n👨‍✈️ Driver\n\nDefault assigned bus, option to swap with another driver.\n\nLive map → see students who have set “waiting flag”.\n\nBoarding verification:\n\nStudent profile photo appears.\n\nDriver confirms",
+    "timestamp": "2025-10-02T06:21:12.317Z",
+    "read": true
+  }
+]

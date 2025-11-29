@@ -184,6 +184,7 @@ export class HeroSlider {
     }
 
     loadSlides(slidesData) {
+        console.log('Loading slides:', slidesData);
         if (!slidesData || slidesData.length === 0) return;
         
         this.slides = slidesData;
@@ -210,12 +211,16 @@ export class HeroSlider {
         this.showSlide(0, true);
         
         // Start autoplay
+        console.log('AutoPlay enabled:', this.options.autoPlay);
+        console.log('Number of slides:', this.slides.length);
         if (this.options.autoPlay && this.slides.length > 1) {
+            console.log('Starting autoplay...');
             this.startAutoPlay();
         }
     }
 
     createSlideElement(slide, index) {
+        console.log('Creating slide element:', index, slide.title);
         const slideDiv = document.createElement('div');
         slideDiv.className = 'hero-slide';
         slideDiv.dataset.index = index;
@@ -254,6 +259,7 @@ export class HeroSlider {
     }
 
     createIndicators() {
+        console.log('Creating indicators...');
         this.indicatorsContainer.innerHTML = '';
         
         this.slides.forEach((_, index) => {
@@ -268,6 +274,7 @@ export class HeroSlider {
             
             this.indicatorsContainer.appendChild(indicator);
         });
+        console.log('Indicators created:', this.indicatorsContainer.children.length);
     }
 
     createThumbnails() {
@@ -294,19 +301,27 @@ export class HeroSlider {
     }
 
     bindEvents() {
+        console.log('Binding events...');
         // Navigation buttons
         if (this.prevBtn) {
-            this.prevBtn.addEventListener('click', () => this.prev());
+            this.prevBtn.addEventListener('click', () => {
+                console.log('Previous button clicked');
+                this.prev();
+            });
         }
         
         if (this.nextBtn) {
-            this.nextBtn.addEventListener('click', () => this.next());
+            this.nextBtn.addEventListener('click', () => {
+                console.log('Next button clicked');
+                this.next();
+            });
         }
         
         // Indicators
         this.indicatorsContainer.addEventListener('click', (e) => {
             if (e.target.classList.contains('hero-indicator')) {
                 const index = parseInt(e.target.dataset.index);
+                console.log('Indicator clicked:', index);
                 this.goToSlide(index);
             }
         });
@@ -317,6 +332,7 @@ export class HeroSlider {
                 const thumbnail = e.target.closest('.hero-thumbnail');
                 if (thumbnail) {
                     const index = parseInt(thumbnail.dataset.index);
+                    console.log('Thumbnail clicked:', index);
                     this.goToSlide(index);
                 }
             });
@@ -324,14 +340,26 @@ export class HeroSlider {
         
         // Keyboard navigation
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') this.prev();
-            if (e.key === 'ArrowRight') this.next();
+            if (e.key === 'ArrowLeft') {
+                console.log('Left arrow pressed');
+                this.prev();
+            }
+            if (e.key === 'ArrowRight') {
+                console.log('Right arrow pressed');
+                this.next();
+            }
         });
         
         // Pause on hover
         if (this.options.pauseOnHover) {
-            this.container.addEventListener('mouseenter', () => this.pause());
-            this.container.addEventListener('mouseleave', () => this.resume());
+            this.container.addEventListener('mouseenter', () => {
+                console.log('Mouse entered slider');
+                this.pause();
+            });
+            this.container.addEventListener('mouseleave', () => {
+                console.log('Mouse left slider');
+                this.resume();
+            });
         }
         
         // Touch/Swipe support
@@ -341,6 +369,7 @@ export class HeroSlider {
         if (this.options.enableParallax) {
             this.addParallaxEffect();
         }
+        console.log('Events bound successfully');
     }
 
     showSlide(index, immediate = false) {
@@ -354,6 +383,9 @@ export class HeroSlider {
         
         // Update slides
         slides.forEach((slide, i) => {
+            // Remove all animation classes first
+            slide.classList.remove('animate-fade', 'animate-slide', 'animate-fade-slide', 'animate-zoom', 'leaving');
+            
             if (i === index) {
                 slide.classList.add('active');
                 if (!immediate) {
@@ -407,9 +439,11 @@ export class HeroSlider {
     }
 
     next() {
+        console.log('Next slide called');
         if (this.slides.length <= 1) return;
         
         const nextIndex = (this.currentIndex + 1) % this.slides.length;
+        console.log('Going to slide:', nextIndex);
         this.goToSlide(nextIndex);
     }
 
@@ -421,18 +455,24 @@ export class HeroSlider {
     }
 
     goToSlide(index) {
-        if (index < 0 || index >= this.slides.length || index === this.currentIndex) return;
+        console.log('Going to slide:', index, 'Current index:', this.currentIndex);
+        if (index < 0 || index >= this.slides.length || index === this.currentIndex) {
+            console.log('Invalid slide index or same as current');
+            return;
+        }
         
         this.showSlide(index);
         this.resetAutoPlay();
     }
 
     startAutoPlay() {
+        console.log('Starting autoplay...');
         if (this.autoPlayTimer) {
             clearInterval(this.autoPlayTimer);
         }
         
         this.autoPlayTimer = setInterval(() => {
+            console.log('Auto playing next slide...');
             this.next();
         }, this.options.autoPlayInterval);
         
@@ -445,12 +485,19 @@ export class HeroSlider {
     startProgressBar() {
         if (!this.progressBar) return;
         
+        // Remove any existing transition
         this.progressBar.style.transition = 'none';
         this.progressBar.style.width = '0%';
         
+        // Force reflow
+        this.progressBar.offsetHeight;
+        
+        // Set up the animation
         setTimeout(() => {
-            this.progressBar.style.transition = `width ${this.options.autoPlayInterval}ms linear`;
-            this.progressBar.style.width = '100%';
+            if (this.progressBar) {
+                this.progressBar.style.transition = `width ${this.options.autoPlayInterval}ms linear`;
+                this.progressBar.style.width = '100%';
+            }
         }, 50);
     }
 
@@ -466,6 +513,7 @@ export class HeroSlider {
     }
 
     pause() {
+        console.log('Pausing autoplay...');
         if (this.autoPlayTimer) {
             clearInterval(this.autoPlayTimer);
             this.autoPlayTimer = null;
@@ -481,12 +529,14 @@ export class HeroSlider {
     }
 
     resume() {
+        console.log('Resuming autoplay...');
         if (this.options.autoPlay && !this.autoPlayTimer) {
             this.startAutoPlay();
         }
     }
 
     resetAutoPlay() {
+        console.log('Resetting autoplay...');
         if (this.options.autoPlay && this.slides.length > 1) {
             this.pause();
             this.startAutoPlay();

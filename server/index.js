@@ -3,11 +3,11 @@ const path = require('path');
 const fs = require('fs').promises;
 const multer = require('multer');
 const cors = require('cors');
-require('dotenv').config();
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const ADMIN_PASS = process.env.ADMIN_PASS || 'changeme';
+const ADMIN_PASS = process.env.ADMIN_PASS || '123456';
 
 // Middleware
 app.use(cors());
@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, '../apps/web')));
 // Configure multer for file uploads
 const storage = multer.diskStorage({
     destination: async (req, file, cb) => {
-        const uploadDir = path.join(__dirname, '../apps/web/uploads');
+        const uploadDir = path.join(__dirname, '../public/uploads');
         try {
             await fs.mkdir(uploadDir, { recursive: true });
             cb(null, uploadDir);
@@ -38,14 +38,14 @@ const upload = multer({
     storage: storage,
     limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
     fileFilter: (req, file, cb) => {
-        const allowedTypes = /jpeg|jpg|png|gif|webp/;
+        const allowedTypes = /jpeg|jpg|png/;
         const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
         const mimetype = allowedTypes.test(file.mimetype);
         
         if (mimetype && extname) {
             return cb(null, true);
         } else {
-            cb(new Error('Only image files are allowed'));
+            cb(new Error('Only jpg and png file formats are allowed'));
         }
     }
 });
@@ -295,7 +295,7 @@ app.post('/api/admin/update/state', authenticateAdmin, async (req, res) => {
     }
     
     // Update only allowed fields
-    const allowedFields = ['name', 'description', 'history', 'highlights', 'festivals'];
+    const allowedFields = ['name', 'description', 'history', 'highlights', 'festivals', 'capital', 'languages', 'bestTime'];
     for (const field of allowedFields) {
         if (stateData[field] !== undefined) {
             states[stateIndex][field] = stateData[field];
@@ -330,7 +330,7 @@ app.post('/api/admin/update/city', authenticateAdmin, async (req, res) => {
     }
     
     // Update only allowed fields
-    const allowedFields = ['name', 'summary', 'history', 'localSpecialties', 'explore'];
+    const allowedFields = ['name', 'summary', 'history', 'localSpecialties', 'explore', 'bestTime', 'connectivity', 'accommodation'];
     for (const field of allowedFields) {
         if (cityData[field] !== undefined) {
             cities[cityIndex][field] = cityData[field];
@@ -348,7 +348,7 @@ app.post('/api/admin/update/city', authenticateAdmin, async (req, res) => {
 
 // Admin moderate image
 app.post('/api/admin/moderate', authenticateAdmin, async (req, res) => {
-    const { citySlug, imageId, action } = req.body;
+    const { citySlug, imageId, action, newCitySlug } = req.body;
     
     if (!citySlug || !imageId || !action) {
         return res.status(400).json({ error: 'Missing required parameters' });
@@ -359,43 +359,172 @@ app.post('/api/admin/moderate', authenticateAdmin, async (req, res) => {
         return res.status(500).json({ error: 'Failed to load cities data' });
     }
     
-    const cityIndex = cities.findIndex(c => c.slug === citySlug);
-    if (cityIndex === -1) {
-        return res.status(404).json({ error: 'City not found' });
-    }
-    
-    const gallery = cities[cityIndex].gallery || [];
-    const imageIndex = gallery.findIndex(img => img.id === imageId);
-    
-    if (imageIndex === -1) {
-        return res.status(404).json({ error: 'Image not found' });
-    }
-    
-    if (action === 'approve') {
-        gallery[imageIndex].moderated = true;
-    } else if (action === 'reject') {
-        // Remove the image
-        gallery.splice(imageIndex, 1);
+    // Handle different actions
+    if (action === 'delete') {
+        // Delete an approved image
+        let imageFound = false;
+        let cityIndex = -1;
+        let imagePath = '';
         
-        // Optionally delete the file
-        try {
-            const imagePath = path.join(__dirname, '../apps/web', gallery[imageIndex].url);
-            await fs.unlink(imagePath);
-        } catch (error) {
-            console.error('Failed to delete image file:', error);
+        // Find the image in any city
+        for (let i = 0; i < cities.length; i++) {
+            if (cities[i].gallery) {
+                const imageIndex = cities[i].gallery.findIndex(img => img.id === imageId);
+                if (imageIndex !== -1) {
+                    // Get the image path for file deletion
+                    imagePath = cities[i].gallery[imageIndex].url;
+                    // Remove the image
+                    cities[i].gallery.splice(imageIndex, 1);
+                    imageFound = true;
+                    cityIndex = i;
+                    break;
+                }
+            }
+        }
+        
+        if (!imageFound) {
+            return res.status(404).json({ error: 'Image not found' });
+        }
+        
+        // Save changes
+        const success = await writeJsonFile('cities.json', cities);
+        
+        if (success) {
+            // Delete the physical file if it exists
+            if (imagePath && imagePath.startsWith('/uploads/')) {
+                const fullPath = path.join(__dirname, '../public', imagePath);
+                try {
+                    await fs.unlink(fullPath);
+                    console.log(`Deleted file: ${fullPath}`);
+                } catch (err) {
+                    console.error(`Failed to delete file: ${fullPath}`, err);
+                }
+            }
+            res.json({ success: true, message: 'Image deleted successfully' });
+        } else {
+            res.status(500).json({ error: 'Failed to save changes' });
+        }
+    } else if (action === 'disapprove') {
+        // Disapprove an approved image (set moderated to false)
+        let imageFound = false;
+        
+        // Find the image in any city
+        for (let i = 0; i < cities.length; i++) {
+            if (cities[i].gallery) {
+                const imageIndex = cities[i].gallery.findIndex(img => img.id === imageId);
+                if (imageIndex !== -1) {
+                    // Set moderated to false
+                    cities[i].gallery[imageIndex].moderated = false;
+                    imageFound = true;
+                    break;
+                }
+            }
+        }
+        
+        if (!imageFound) {
+            return res.status(404).json({ error: 'Image not found' });
+        }
+        
+        // Save changes
+        const success = await writeJsonFile('cities.json', cities);
+        
+        if (success) {
+            res.json({ success: true, message: 'Image disapproved successfully' });
+        } else {
+            res.status(500).json({ error: 'Failed to save changes' });
+        }
+    } else if (action === 'approve' && newCitySlug && newCitySlug !== citySlug) {
+        // Moving image to a different city
+        let imageToMove = null;
+        let currentCityIndex = -1;
+        let imageIndex = -1;
+        
+        // Find the image in any city
+        for (let i = 0; i < cities.length; i++) {
+            if (cities[i].gallery) {
+                const idx = cities[i].gallery.findIndex(img => img.id === imageId);
+                if (idx !== -1) {
+                    imageToMove = cities[i].gallery[idx];
+                    currentCityIndex = i;
+                    imageIndex = idx;
+                    break;
+                }
+            }
+        }
+        
+        if (!imageToMove) {
+            return res.status(404).json({ error: 'Image not found' });
+        }
+        
+        // Remove from current city
+        cities[currentCityIndex].gallery.splice(imageIndex, 1);
+        
+        // Add to new city
+        const newCityIndex = cities.findIndex(c => c.slug === newCitySlug);
+        if (newCityIndex === -1) {
+            return res.status(404).json({ error: 'New city not found' });
+        }
+        
+        if (!cities[newCityIndex].gallery) {
+            cities[newCityIndex].gallery = [];
+        }
+        
+        imageToMove.moderated = true; // Approve when moving
+        cities[newCityIndex].gallery.push(imageToMove);
+        
+        // Save changes
+        const success = await writeJsonFile('cities.json', cities);
+        
+        if (success) {
+            res.json({ success: true, message: `Image approved and moved to ${newCitySlug} successfully` });
+        } else {
+            res.status(500).json({ error: 'Failed to save changes' });
         }
     } else {
-        return res.status(400).json({ error: 'Invalid action' });
-    }
-    
-    cities[cityIndex].gallery = gallery;
-    
-    const success = await writeJsonFile('cities.json', cities);
-    
-    if (success) {
-        res.json({ success: true, message: `Image ${action}d successfully` });
-    } else {
-        res.status(500).json({ error: 'Failed to save changes' });
+        // Standard approval/rejection in the same city
+        const cityIndex = cities.findIndex(c => c.slug === citySlug);
+        if (cityIndex === -1) {
+            return res.status(404).json({ error: 'City not found' });
+        }
+        
+        const gallery = cities[cityIndex].gallery || [];
+        const imageIndex = gallery.findIndex(img => img.id === imageId);
+        
+        if (imageIndex === -1) {
+            return res.status(404).json({ error: 'Image not found' });
+        }
+        
+        if (action === 'approve') {
+            gallery[imageIndex].moderated = true;
+        } else if (action === 'reject') {
+            // Get the image path for file deletion
+            const imagePath = gallery[imageIndex].url;
+            // Remove the image
+            gallery.splice(imageIndex, 1);
+            
+            // Delete the physical file if it exists
+            if (imagePath && imagePath.startsWith('/uploads/')) {
+                const fullPath = path.join(__dirname, '../public', imagePath);
+                try {
+                    await fs.unlink(fullPath);
+                    console.log(`Deleted rejected file: ${fullPath}`);
+                } catch (err) {
+                    console.error(`Failed to delete rejected file: ${fullPath}`, err);
+                }
+            }
+        } else {
+            return res.status(400).json({ error: 'Invalid action' });
+        }
+        
+        cities[cityIndex].gallery = gallery;
+        
+        const success = await writeJsonFile('cities.json', cities);
+        
+        if (success) {
+            res.json({ success: true, message: `Image ${action}d successfully` });
+        } else {
+            res.status(500).json({ error: 'Failed to save changes' });
+        }
     }
 });
 
@@ -407,6 +536,40 @@ app.post('/api/admin/feedback', authenticateAdmin, async (req, res) => {
         res.json(feedback);
     } else {
         res.status(500).json({ error: 'Failed to load feedback' });
+    }
+});
+
+// Admin delete feedback
+app.post('/api/admin/delete-feedback', authenticateAdmin, async (req, res) => {
+    try {
+        const { feedbackId } = req.body;
+        
+        // Read current feedback
+        const feedback = await readJsonFile('feedback.json');
+        
+        if (!feedback) {
+            return res.status(500).json({ error: 'Failed to load feedback' });
+        }
+        
+        // Filter out the feedback item to delete
+        const updatedFeedback = feedback.filter(item => item.id !== feedbackId);
+        
+        // Check if item was actually removed
+        if (updatedFeedback.length === feedback.length) {
+            return res.status(404).json({ error: 'Feedback not found' });
+        }
+        
+        // Save updated feedback
+        const success = await writeJsonFile('feedback.json', updatedFeedback);
+        
+        if (success) {
+            res.json({ success: true, message: 'Feedback deleted successfully' });
+        } else {
+            res.status(500).json({ error: 'Failed to save changes' });
+        }
+    } catch (error) {
+        console.error('Failed to delete feedback:', error);
+        res.status(500).json({ error: 'Internal server error' });
     }
 });
 
@@ -450,7 +613,7 @@ async function startServer() {
 ║   Discover NorthEast Server Running! 🚀   ║
 ╠═══════════════════════════════════════════╣
 ║   Local: http://localhost:${PORT}            ║
-║   Admin Password: ${ADMIN_PASS === 'changeme' ? 'changeme (⚠️ change this!)' : '********'}   ║
+║   Admin Password: ${ADMIN_PASS === '123456' ? '123456 (⚠️ change this!)' : '********'}   ║
 ╚═══════════════════════════════════════════╝
         `);
     });

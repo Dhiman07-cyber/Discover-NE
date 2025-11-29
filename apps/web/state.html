@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>State Details - Discover NorthEast India</title>
     <meta name="description" content="Explore the state's unique attractions, cities, culture and heritage">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="../styles/components.css">
+    <link rel="stylesheet" href="../styles/hero-slider.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
@@ -43,17 +44,12 @@
         </div>
     </nav>
 
-    <!-- State Hero with Slideshow -->
-    <section class="state-hero" aria-label="State featured images">
-        <div class="slideshow-container" id="stateSlideshow">
-            <div class="slides-wrapper">
-                <!-- Slides will be dynamically loaded -->
-            </div>
-            <button class="slide-prev" aria-label="Previous image">❮</button>
-            <button class="slide-next" aria-label="Next image">❯</button>
-            <div class="slide-indicators" role="tablist"></div>
+    <!-- Enhanced Hero Section with Modern Slideshow -->
+    <section class="hero-section" aria-label="Featured state images">
+        <div id="heroSlideshow" class="hero-slideshow">
+            <!-- Hero slider will be dynamically initialized here -->
         </div>
-        <div class="state-hero-content">
+        <div class="state-hero-overlay">
             <h1 id="stateName" class="state-title">Loading...</h1>
             <p id="stateTagline" class="state-tagline"></p>
         </div>
@@ -189,6 +185,6 @@
     <!-- Scripts -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script type="module" src="js/state.js"></script>
-    <script type="module" src="js/slider.js"></script>
+    <script type="module" src="js/hero-slider.js"></script>
 </body>
 </html>
